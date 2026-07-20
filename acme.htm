@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jiangsu ACME Power - Professional Transformer Manufacturer</title>
+    <!-- Three.js 稳定版，解决黑屏渲染问题 -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            background: #f5f7fa;
+            color: #222;
+            line-height: 1.7;
+            overflow-x: hidden;
+            position: relative;
+        }
+        /* 3D画布底层固定，不遮挡页面 */
+        #waveCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1;
+            pointer-events: none;
+        }
+        header {
+            background: rgba(0, 28, 70, 0.93);
+            color: #fff;
+            padding: 16px 40px;
+            position: sticky;
+            top: 0;
+            z-index: 999;
+            border-bottom: 1px solid rgba(0, 140, 220, 0.3);
+            box-shadow: 0 2px 16px rgba(0, 50, 130, 0.2);
+        }
+        .nav-wrap {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            color: #70b8ff;
+        }
+        nav a {
+            color: #e6f4ff;
+            text-decoration: none;
+            margin-left: 24px;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+        nav a:hover {
+            color: #70b8ff;
+            text-decoration: underline;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 10;
+        }
+        .banner {
+            background: linear-gradient(135deg, rgba(0, 28, 70, 0.88), rgba(0, 75, 160, 0.88));
+            color: white;
+            padding: 60px 30px;
+            border-radius: 12px;
+            margin-bottom: 40px;
+            text-align: center;
+            border: 1px solid rgba(0, 160, 240, 0.25);
+            box-shadow: 0 4px 20px rgba(0, 40, 120, 0.18);
+        }
+        .banner h1 {
+            font-size: 36px;
+            margin-bottom: 12px;
+            color: #cce7ff;
+        }
+        .banner p {
+            font-size: 18px;
+            color: #e0f0ff;
+        }
+        .section {
+            background: rgba(255, 255, 255, 0.83);
+            padding: 32px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+            border: 1px solid rgba(0, 100, 200, 0.15);
+        }
+        .section h2 {
+            color: #002858;
+            margin-bottom: 16px;
+            border-left: 5px solid #0050a0;
+            padding-left: 12px;
+        }
+        ul {
+            padding-left: 22px;
+            margin: 12px 0;
+        }
+        .advantage-list li {
+            list-style: none;
+            padding: 8px 0;
+        }
+        .advantage-list li::before {
+            content: "✅ ";
+            color: #009944;
+            font-weight: bold;
+        }
+        .contact-block {
+            background: rgba(240, 246, 255, 0.9);
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border-left: 5px solid #0050a0;
+        }
+        footer {
+            background: linear-gradient(90deg, rgba(0, 30, 65, 0.96), rgba(0, 60, 120, 0.96));
+            color: #cfd8dc;
+            text-align: center;
+            padding: 28px;
+            margin-top: 60px;
+            position: relative;
+            z-index: 10;
+            border-top: 1px solid rgba(0, 160, 240, 0.35);
+            box-shadow: 0 -8px 30px rgba(0, 60, 140, 0.25);
+        }
+    </style>
+</head>
+<body>
+    <canvas id="waveCanvas"></canvas>
+
+    <header>
+        <div class="nav-wrap">
+            <div class="logo">ACME POWER</div>
+            <nav>
+                <a href="index.html">Hai'an City Introduction</a>
+                <a href="acme.html">Company Profile</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="banner">
+            <h1>Jiangsu ACME Power Co., Ltd.</h1>
+            <p>Professional Manufacturer of Power Transmission & Distribution Equipment for Global New Energy & Grid Projects</p>
+        </div>
+
+        <div class="section">
+            <h2>Company Profile</h2>
+            <p>Jiangsu ACME Power Co., Ltd. is located in Hai'an High-Tech Industrial Zone, Nantong, Jiangsu Province, founded in 2023. We are a high-tech enterprise focusing on R&D, manufacturing and global export of high & low voltage distribution transformers, kiosk substations, solar & energy storage dry-type transformers, reactors and Faraday shield isolation transformers.</p>
+            <p>Benefiting from the complete supporting supply chain of power equipment in Hai'an, our factory is equipped with standardized production workshops, VPD & VPL vacuum drying production lines and full set of type test equipment. All products are manufactured strictly in accordance with international standards including IEEE, UL, ANSI, IEC, NEMA and DOE. Our products have obtained authoritative certifications such as UL, ISO9001, ISO14001 and KEMA, fully adapting to power grid operation conditions in North America, Australia, Middle East, Latin America and Southeast Asia.</p>
+            <p>Our core product portfolio covers pole-mounted distribution transformers, pad-mount transformers, 33kV outdoor kiosk substations, 1000VAC dry-type isolation transformers for energy storage, NGR neutral grounding resistors and water-cooled special transformers. Customization services are available, including IEEE 693 seismic reinforcement design and sea transport shock protection design.</p>
+            <p>We mainly focus on overseas markets, with products exported to USA, Canada, Australia, Brazil, Guatemala and various Middle Eastern countries. We have a professional overseas engineering team providing one-stop services including drawing customization, on-site technical coordination and long-term after-sales maintenance. We attach great importance to on-time delivery and product stability, achieving an overseas reorder rate over 65%.</p>
+            <p><strong>Corporate Mission:</strong> To provide reliable, high-efficiency and fully compliant power transmission & distribution integrated solutions for global new energy and grid engineering projects.</p>
+        </div>
+
+        <div class="section">
+            <h2>Core Advantages</h2>
+            <ul class="advantage-list">
+                <li>Location Advantage: Mature industrial cluster in Hai'an, local supply of supporting parts to cut costs and improve efficiency</li>
+                <li>Full Standard Coverage: Complete production qualifications for US, Australian, Chinese and European standards</li>
+                <li>Strong Customization Capacity: Custom transformers for energy storage, seismic resistance and special operating conditions</li>
+                <li>Global Delivery System: Stable sea-land combined logistics channel for large power equipment export</li>
+                <li>Technical After-sales Support: Full technical service for overseas projects, remote guidance and on-site support available</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>Main Products</h2>
+            <ul>
+                <li>Pole-mounted Distribution Transformer</li>
+                <li>Pad-mount Transformer</li>
+                <li>33kV Outdoor Kiosk Substation</li>
+                <li>1000VAC Dry-type Isolation Transformer for Energy Storage</li>
+                <li>Faraday Shield Isolation Transformer</li>
+                <li>NGR Neutral Grounding Resistor</li>
+                <li>Reactor & Water-cooled Special Transformer</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>Contact Information</h2>
+            <div class="contact-block">
+                <p><strong>Factory Address:</strong> Hai'an High-Tech Industrial Zone, Nantong City, Jiangsu Province, China</p>
+                <p><strong>Main Business:</strong> Distribution Transformer, Kiosk Substation, Energy Storage Dry Transformer, Reactor</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2026 Jiangsu ACME Power Co., Ltd. Official English Introduction Page | For Global Overseas Clients</p>
+    </footer>
+
+    <script>
+        const canvas = document.getElementById('waveCanvas');
+        let scene, camera, renderer, terrainMesh;
+        let mouseX = 0, mouseY = 0;
+        // 网格细分，和3ds Max截图细密网格匹配
+        const SEGMENT = 100;
+        const PLANE_SIZE = 240;
+
+        // 初始化地形海面
+        function initTerrain() {
+            scene = new THREE.Scene();
+            // 页面底色匹配，不会全黑
+            scene.background = new THREE.Color(0xf5f7fa);
+
+            // 斜透视相机，还原截图俯视3D视角
+            camera = new THREE.PerspectiveCamera(62, window.innerWidth / window.innerHeight, 0.1, 2000);
+            camera.position.set(0, 75, 135);
+            camera.lookAt(0, -12, 0);
+
+            // 修复黑屏核心参数
+            renderer = new THREE.WebGLRenderer({
+                canvas: canvas,
+                alpha: true,
+                antialias: true,
+                powerPreference: "high-performance"
+            });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+            // 高密度网格几何体，模拟3ds Max地形
+            const geo = new THREE.PlaneGeometry(PLANE_SIZE, PLANE_SIZE, SEGMENT, SEGMENT);
+            // 深蓝基底+白色线框，和截图视觉完全一致
+            const mat = new THREE.MeshBasicMaterial({
+                color: 0x004499,
+                wireframe: true,
+                transparent: true,
+                opacity: 0.24
+            });
+            terrainMesh = new THREE.Mesh(geo, mat);
+            terrainMesh.rotation.x = -Math.PI / 2;
+            scene.add(terrainMesh);
+
+            // 窗口自适应
+            window.addEventListener('resize', resizeCanvas);
+            // 鼠标交互扰动地形起伏
+            window.addEventListener('mousemove', e => {
+                mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+                mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
+            });
+            animateTerrain();
+        }
+
+        function resizeCanvas() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        function animateTerrain() {
+            requestAnimationFrame(animateTerrain);
+            const time = Date.now() * 0.0004;
+            const posAttr = terrainMesh.geometry.attributes.position;
+            const vertexCount = posAttr.count;
+
+            // 多层正弦波叠加，生成自然凹凸地形，和截图海浪起伏一致
+            for (let i = 0; i < vertexCount; i++) {
+                const x = posAttr.getX(i);
+                const z = posAttr.getY(i);
+                let height = 0;
+                height += Math.sin(x * 0.06 + time * 1.0) * 6;
+                height += Math.sin(z * 0.08 + time * 0.65) * 4.5;
+                height += Math.sin((x + z) * 0.04 + time * 1.1) * 3;
+                height += Math.sin((x - z) * 0.05 + time * 0.8) * 2;
+                // 鼠标扰动
+                height += (mouseX * x * 0.02) + (mouseY * z * 0.02);
+                posAttr.setZ(i, height);
+            }
+            posAttr.needsUpdate = true;
+
+            // 相机缓慢跟随鼠标，动态3D视角
+            camera.position.x += (mouseX * 26 - camera.position.x) * 0.03;
+            camera.position.y += (-mouseY * 14 + 75 - camera.position.y) * 0.03;
+
+            renderer.render(scene, camera);
+        }
+
+        // 页面完全加载后再渲染，彻底解决黑屏
+        window.addEventListener('load', initTerrain);
+    </script>
+</body>
+</html>
