@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jiangsu ACME Power - Professional Transformer Manufacturer</title>
-    <!-- Three.js 稳定版，解决黑屏渲染问题 -->
     <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
     <style>
         * {
@@ -13,6 +12,7 @@
             box-sizing: border-box;
             font-family: Arial, sans-serif;
         }
+
         body {
             background: #f5f7fa;
             color: #222;
@@ -20,7 +20,7 @@
             overflow-x: hidden;
             position: relative;
         }
-        /* 3D画布底层固定，不遮挡页面 */
+
         #waveCanvas {
             position: fixed;
             top: 0;
@@ -30,6 +30,7 @@
             z-index: 1;
             pointer-events: none;
         }
+
         header {
             background: rgba(0, 28, 70, 0.93);
             color: #fff;
@@ -40,6 +41,7 @@
             border-bottom: 1px solid rgba(0, 140, 220, 0.3);
             box-shadow: 0 2px 16px rgba(0, 50, 130, 0.2);
         }
+
         .nav-wrap {
             max-width: 1200px;
             margin: 0 auto;
@@ -47,12 +49,14 @@
             justify-content: space-between;
             align-items: center;
         }
+
         .logo {
             font-size: 24px;
             font-weight: bold;
             letter-spacing: 1px;
             color: #70b8ff;
         }
+
         nav a {
             color: #e6f4ff;
             text-decoration: none;
@@ -60,10 +64,12 @@
             font-size: 16px;
             transition: 0.3s;
         }
+
         nav a:hover {
             color: #70b8ff;
             text-decoration: underline;
         }
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -71,6 +77,7 @@
             position: relative;
             z-index: 10;
         }
+
         .banner {
             background: linear-gradient(135deg, rgba(0, 28, 70, 0.88), rgba(0, 75, 160, 0.88));
             color: white;
@@ -81,15 +88,18 @@
             border: 1px solid rgba(0, 160, 240, 0.25);
             box-shadow: 0 4px 20px rgba(0, 40, 120, 0.18);
         }
+
         .banner h1 {
             font-size: 36px;
             margin-bottom: 12px;
             color: #cce7ff;
         }
+
         .banner p {
             font-size: 18px;
             color: #e0f0ff;
         }
+
         .section {
             background: rgba(255, 255, 255, 0.83);
             padding: 32px;
@@ -98,25 +108,30 @@
             box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
             border: 1px solid rgba(0, 100, 200, 0.15);
         }
+
         .section h2 {
             color: #002858;
             margin-bottom: 16px;
             border-left: 5px solid #0050a0;
             padding-left: 12px;
         }
+
         ul {
             padding-left: 22px;
             margin: 12px 0;
         }
+
         .advantage-list li {
             list-style: none;
             padding: 8px 0;
         }
+
         .advantage-list li::before {
             content: "✅ ";
             color: #009944;
             font-weight: bold;
         }
+
         .contact-block {
             background: rgba(240, 246, 255, 0.9);
             padding: 20px;
@@ -124,6 +139,7 @@
             margin-top: 15px;
             border-left: 5px solid #0050a0;
         }
+
         footer {
             background: linear-gradient(90deg, rgba(0, 30, 65, 0.96), rgba(0, 60, 120, 0.96));
             color: #cfd8dc;
@@ -135,10 +151,49 @@
             border-top: 1px solid rgba(0, 160, 240, 0.35);
             box-shadow: 0 -8px 30px rgba(0, 60, 140, 0.25);
         }
+
+        .product-item {
+            cursor: pointer;
+            position: relative;
+            font-weight: 500;
+            width: fit-content; /* 关键：宽度自适应文字长度，不占满整行 */
+        }
+        /* 新增下划线悬浮提示，增强交互感知 */
+        .product-item:hover .product-name {
+            text-decoration: underline;
+        }
+
+        .product-item .product-name {
+            transition: color 1.2s ease;
+        }
+
+        #productPopup {
+            position: fixed;
+            height: auto;
+            padding: 8px;
+            background: #ffffff;
+            border: 2px solid #0050a0;
+            border-radius: 8px;
+            box-shadow: 0 8px 24px rgba(0, 40, 100, 0.25);
+            z-index: 9999;
+            pointer-events: none;
+            display: none;
+            max-width: 50vw;
+        }
+
+        #productPopup img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
     </style>
 </head>
 <body>
     <canvas id="waveCanvas"></canvas>
+
+    <div id="productPopup">
+        <img id="popupImg" src="" alt="Product">
+    </div>
 
     <header>
         <div class="nav-wrap">
@@ -177,17 +232,35 @@
         </div>
 
         <div class="section">
-            <h2>Main Products</h2>
+            <h2>Main Products <small style="font-weight:normal;font-size:14px;color:#666;">(Hover over items to view product picture)</small></h2>
             <ul>
-                <li>Main Transformer (Main Transformer)</li>
-                <li>Distribution Transformer (Distribution Transformer)</li>
-                <li>110kV / 220kV Ultra-high Voltage Transformer</li>
-                <li>Pole-mounted Distribution Transformer</li>
-                <li>Pad-mount Transformer</li>
-                <li>33kV Outdoor Kiosk Substation</li>
-                <li>Pre-installed Box Substation</li>
-                <li>High Voltage Switchgear</li>
-                <li>1000VAC Dry-type Isolation Transformer for Energy Storage</li>
+                <li class="product-item" imgSrc="img/main-transformer.jpg" title="Hover to view product image">
+                    <span class="product-name">Main Transformer</span>
+                </li>
+                <li class="product-item" imgSrc="img/distribution-transformer.jpg" title="Hover to view product image">
+                    <span class="product-name">Distribution Transformer</span>
+                </li>
+                <li class="product-item" imgSrc="img/uhv-transformer.jpg" title="Hover to view product image">
+                    <span class="product-name">110kV / 220kV Ultra-high Voltage Transformer</span>
+                </li>
+                <li class="product-item" imgSrc="img/pole-mounted-transformer.jpg" title="Hover to view product image">
+                    <span class="product-name">Pole-mounted Distribution Transformer</span>
+                </li>
+                <li class="product-item" imgSrc="img/pad-mount-transformer.jpg" title="Hover to view product image">
+                    <span class="product-name">Pad-mount Transformer</span>
+                </li>
+                <li class="product-item" imgSrc="img/33kv-kiosk-substation.jpg" title="Hover to view product image">
+                    <span class="product-name">33kV Outdoor Kiosk Substation</span>
+                </li>
+                <li class="product-item" imgSrc="img/preinstalled-box-substation.jpg" title="Hover to view product image">
+                    <span class="product-name">Pre-installed Box Substation</span>
+                </li>
+                <li class="product-item" imgSrc="img/hvcb.jpg" title="Hover to view product image">
+                    <span class="product-name">Gas Insulated Switchgear</span>
+                </li>
+                <li class="product-item" imgSrc="img/Dry-type Transformer.jpg" title="Hover to view product image">
+                    <span class="product-name">Dry-type Transformer</span>
+                </li>
             </ul>
         </div>
 
@@ -208,22 +281,18 @@
         const canvas = document.getElementById('waveCanvas');
         let scene, camera, renderer, terrainMesh;
         let mouseX = 0, mouseY = 0;
-        // 网格细分，和3ds Max截图细密网格匹配
+
         const SEGMENT = 100;
         const PLANE_SIZE = 240;
 
-        // 初始化地形海面
         function initTerrain() {
             scene = new THREE.Scene();
-            // 页面底色匹配，不会全黑
             scene.background = new THREE.Color(0xf5f7fa);
 
-            // 斜透视相机，还原截图俯视3D视角
             camera = new THREE.PerspectiveCamera(62, window.innerWidth / window.innerHeight, 0.1, 2000);
             camera.position.set(0, 75, 135);
             camera.lookAt(0, -12, 0);
 
-            // 修复黑屏核心参数
             renderer = new THREE.WebGLRenderer({
                 canvas: canvas,
                 alpha: true,
@@ -233,9 +302,7 @@
             renderer.setSize(window.innerWidth, window.innerHeight);
             renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-            // 高密度网格几何体，模拟3ds Max地形
             const geo = new THREE.PlaneGeometry(PLANE_SIZE, PLANE_SIZE, SEGMENT, SEGMENT);
-            // 深蓝基底+白色线框，和截图视觉完全一致
             const mat = new THREE.MeshBasicMaterial({
                 color: 0x004499,
                 wireframe: true,
@@ -246,13 +313,12 @@
             terrainMesh.rotation.x = -Math.PI / 2;
             scene.add(terrainMesh);
 
-            // 窗口自适应
             window.addEventListener('resize', resizeCanvas);
-            // 鼠标交互扰动地形起伏
             window.addEventListener('mousemove', e => {
                 mouseX = (e.clientX / window.innerWidth) * 2 - 1;
                 mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
             });
+
             animateTerrain();
         }
 
@@ -264,34 +330,95 @@
 
         function animateTerrain() {
             requestAnimationFrame(animateTerrain);
+
             const time = Date.now() * 0.0004;
             const posAttr = terrainMesh.geometry.attributes.position;
             const vertexCount = posAttr.count;
 
-            // 多层正弦波叠加，生成自然凹凸地形，和截图海浪起伏一致
             for (let i = 0; i < vertexCount; i++) {
                 const x = posAttr.getX(i);
                 const z = posAttr.getY(i);
+
                 let height = 0;
                 height += Math.sin(x * 0.06 + time * 1.0) * 6;
                 height += Math.sin(z * 0.08 + time * 0.65) * 4.5;
                 height += Math.sin((x + z) * 0.04 + time * 1.1) * 3;
                 height += Math.sin((x - z) * 0.05 + time * 0.8) * 2;
-                // 鼠标扰动
                 height += (mouseX * x * 0.02) + (mouseY * z * 0.02);
+
                 posAttr.setZ(i, height);
             }
+
             posAttr.needsUpdate = true;
 
-            // 相机缓慢跟随鼠标，动态3D视角
             camera.position.x += (mouseX * 26 - camera.position.x) * 0.03;
             camera.position.y += (-mouseY * 14 + 75 - camera.position.y) * 0.03;
 
             renderer.render(scene, camera);
         }
 
-        // 页面完全加载后再渲染，彻底解决黑屏
         window.addEventListener('load', initTerrain);
+
+        // ========== 产品悬浮图片逻辑 ==========
+        const popup = document.getElementById('productPopup');
+        const popupImg = document.getElementById('popupImg');
+        const productItems = document.querySelectorAll('.product-item');
+
+        productItems.forEach(item => {
+            item.addEventListener('mouseenter', function () {
+                const imgUrl = this.getAttribute('imgSrc');
+                popupImg.src = imgUrl;
+                popup.style.display = 'block';
+            });
+
+            item.addEventListener('mouseleave', function () {
+                popup.style.display = 'none';
+            });
+        });
+
+        document.addEventListener('mousemove', function (e) {
+            if (popup.style.display === 'block') {
+                let popupX = window.innerWidth / 3;
+                let popupY = e.clientY + 20;
+
+                if ((popupY + popup.offsetHeight) > window.innerHeight) {
+                    popupY = e.clientY - popup.offsetHeight - 20;
+                }
+
+                if (popupY < 10) {
+                    popupY = 10;
+                }
+
+                popup.style.left = popupX + 'px';
+                popup.style.top = popupY + 'px';
+            }
+        });
+
+        // ========== 单个产品名称轮换变色 ==========
+        const productNames = document.querySelectorAll('.product-name');
+
+        // 商务稳重色系，变化清晰但不花哨
+        const colors = [
+            '#002858',
+            '#0050a0',
+            '#0066b3',
+            '#0077b6',
+            '#0050a0',
+            '#002858'
+        ];
+
+        let currentIndex = 0;
+
+        function rotateProductColors() {
+            productNames.forEach((el, index) => {
+                const colorIndex = (currentIndex + index) % colors.length;
+                el.style.color = colors[colorIndex];
+            });
+
+            currentIndex++;
+        }
+
+        setInterval(rotateProductColors, 2500);
     </script>
 </body>
 </html>
